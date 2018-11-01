@@ -1,0 +1,34 @@
+---
+title: "HW 09 - Bootstrapping the GSS"
+author: "Team Awesome"
+date: "2018-10-25"
+output: github_document
+---
+
+### Load packages
+
+```{r load-packages, message=FALSE}
+#load necessary packages
+```
+
+### Load data
+
+```{r load-data, message=FALSE}
+#evals <- read_csv("data/evals-mod.csv")
+```
+
+### Set seed
+
+```{r set-seed}
+#set seed
+```
+
+(Add code chunks, exercise headings, and narrative as needed below.)
+
+### Exercise 1
+
+
+
+### Exercise 2
+
+...
