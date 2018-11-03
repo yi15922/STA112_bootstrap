@@ -38,7 +38,8 @@ The possible responses to this question is Does not apply (i do not have a job/s
 ### Exercise 2
 
 ```{r}
-
+harassed <- gss2016 %>%
+  filter(harass5 == "Yes" | harass5 == "No")
 ```
 
 ### Exercise 3

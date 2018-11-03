@@ -46,6 +46,11 @@ and Yes. The number of people who said each resposne is 96, 1, 1136, 7,
 
 ### Exercise 2
 
+``` r
+harassed <- gss2016 %>%
+  filter(harass5 == "Yes" | harass5 == "No")
+```
+
 ### Exercise 3
 
 ### Exercise 4
