@@ -57,7 +57,7 @@ harassed %>%
 
 ```{r visualize-bootstrap}
 
-harrass_bs <- 
+harass_bs <- 
   harassed %>%
     specify(response = harass5, success = "Yes") %>% 
     generate(reps = 1000, type = "bootstrap") %>% 
@@ -80,14 +80,14 @@ ggplot(data = harass_bs,
 ### Exercise 5
 
 ```{r}
-harassed %>%
+harass_bs %>%
   summarise(
     lower = quantile(stat, 0.025),
     upper = quantile(stat, 0.975),
     )
 ```
 
-The 95% bootstrap confidence interval based on the distribution we constructed above is 
+The 95% bootstrap confidence interval based on the distribution we constructed above is 0.152 to 0.192.
 
 
 ### Exercise 6

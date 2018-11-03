@@ -71,7 +71,62 @@ harassed by their superiors or co-workers at their job.
 
 ### Exercise 4
 
+``` r
+harass_bs <- 
+  harassed %>%
+    specify(response = harass5, success = "Yes") %>% 
+    generate(reps = 1000, type = "bootstrap") %>% 
+    calculate(stat = "prop")
+
+harass_bs
+```
+
+    ## # A tibble: 1,000 x 2
+    ##    replicate  stat
+    ##        <int> <dbl>
+    ##  1         1 0.170
+    ##  2         2 0.173
+    ##  3         3 0.172
+    ##  4         4 0.169
+    ##  5         5 0.168
+    ##  6         6 0.181
+    ##  7         7 0.165
+    ##  8         8 0.151
+    ##  9         9 0.149
+    ## 10        10 0.184
+    ## # ... with 990 more rows
+
+``` r
+ggplot(data = harass_bs, 
+       mapping = aes(x = stat)) +
+  geom_histogram(binwidth = 0.005, 
+                 fill = "Blue", 
+                 color = "Black") +
+  labs(title = "Americans who have been harassed at work",
+       subtitle = "Bootstrap distribution of proportions",
+       x = "Proportion",
+       y = "Count")
+```
+
+![](hw-09-bootstrap-gss_files/figure-gfm/visualize-bootstrap-1.png)<!-- -->
+
 ### Exercise 5
+
+``` r
+harass_bs %>%
+  summarise(
+    lower = quantile(stat, 0.025),
+    upper = quantile(stat, 0.975),
+    )
+```
+
+    ## # A tibble: 1 x 2
+    ##   lower upper
+    ##   <dbl> <dbl>
+    ## 1 0.152 0.192
+
+The 95% bootstrap confidence interval based on the distribution we
+constructed above is
 
 ### Exercise 6
 
