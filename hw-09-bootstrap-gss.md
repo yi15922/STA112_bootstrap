@@ -13,7 +13,11 @@ library(tidyverse)
 ### Load data
 
 ``` r
+<<<<<<< HEAD
+gss <- read_csv("gss2016.csv", guess_max = 1000)
+=======
 gss2016 <- read_csv("data/gss2016.csv")
+>>>>>>> 8b1f0b45858d9d2837454a8943907190a7c0392d
 ```
 
 ### Set seed

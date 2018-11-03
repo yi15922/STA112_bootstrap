@@ -15,7 +15,9 @@ library(tidyverse)
 ### Load data
 
 ```{r load-data, message=FALSE}
-gss2016 <- read_csv("data/gss2016.csv")
+
+gss2016 <- read_csv("gss2016.csv")
+
 ```
 
 ### Set seed
