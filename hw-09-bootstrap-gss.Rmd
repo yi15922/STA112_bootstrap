@@ -55,7 +55,25 @@ harassed %>%
 
 ### Exercise 4
 
-```{r}
+```{r visualize-bootstrap}
+
+harrass_bs <- 
+  harassed %>%
+    specify(response = harass5, success = "Yes") %>% 
+    generate(reps = 1000, type = "bootstrap") %>% 
+    calculate(stat = "prop")
+
+harass_bs
+
+ggplot(data = harass_bs, 
+       mapping = aes(x = stat)) +
+  geom_histogram(binwidth = 0.005, 
+                 fill = "Blue", 
+                 color = "Black") +
+  labs(title = "Americans who have been harassed at work",
+       subtitle = "Bootstrap distribution of proportions",
+       x = "Proportion",
+       y = "Count")
 
 ```
 
