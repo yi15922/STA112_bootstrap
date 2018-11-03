@@ -13,13 +13,13 @@ library(tidyverse)
 ### Load data
 
 ``` r
-#evals <- read_csv("data/evals-mod.csv")
+gss <- read_csv("gss2016.csv", guess_max = 1000)
 ```
 
 ### Set seed
 
 ``` r
-#set seed
+set.seed(12354)
 ```
 
 (Add code chunks, exercise headings, and narrative as needed below.)

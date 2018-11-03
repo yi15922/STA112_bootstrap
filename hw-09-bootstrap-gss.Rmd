@@ -15,7 +15,7 @@ library(tidyverse)
 ### Load data
 
 ```{r load-data, message=FALSE}
-evals <- read_csv("data/evals-mod.csv")
+gss <- read_csv("gss2016.csv", guess_max = 1000)
 ```
 
 ### Set seed
