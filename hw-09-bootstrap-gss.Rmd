@@ -15,13 +15,13 @@ library(tidyverse)
 ### Load data
 
 ```{r load-data, message=FALSE}
-#evals <- read_csv("data/evals-mod.csv")
+evals <- read_csv("data/evals-mod.csv")
 ```
 
 ### Set seed
 
 ```{r set-seed}
-#set seed
+set.seed(12354)
 ```
 
 (Add code chunks, exercise headings, and narrative as needed below.)
