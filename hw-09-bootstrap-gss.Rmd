@@ -62,9 +62,14 @@ harassed %>%
 ### Exercise 5
 
 ```{r}
-
+harassed %>%
+  summarise(
+    lower = quantile(stat, 0.025),
+    upper = quantile(stat, 0.975),
+    )
 ```
 
+The 95% bootstrap confidence interval based on the distribution we constructed above is 
 
 
 ### Exercise 6
