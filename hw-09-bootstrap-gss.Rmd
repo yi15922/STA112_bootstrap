@@ -147,7 +147,23 @@ We are 95% confident that the median percentage of those who have been harassed 
 ### Exercise 14
 
 ```{r}
+edu_diff <- gss2016 %>%
+  filter(is.na(as.numeric(educ)) == FALSE)
 
+edu_diff<- edu_diff %>%
+  filter(born == "Yes" | born == "No")
+
+boot_yesmean <- edu_diff %>%
+  specify(response = born, success = "Yes") %>%
+  specify(response = educ) %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "mean")
+
+boot_nomean <- edu_diff %>%
+  specify(response = born, success = "No") %>%
+  specify(response = educ) %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "mean")
 ```
 
 ### Exercise 15

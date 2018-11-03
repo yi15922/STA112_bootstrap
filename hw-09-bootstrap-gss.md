@@ -148,6 +148,23 @@ and 19.2%.
 
 ### Exercise 13
 
+``` r
+edu_diff <- gss2016 %>%
+  filter(is.na(educ) == FALSE)
+```
+
+edu\_diff\<- edu\_diff %\>% filter(born == “Yes” | born == “No”)
+
+boot\_yesmean \<- edu\_diff %\>% specify(response = born, success =
+“Yes”) %\>% specify(response = educ) %\>% generate(reps = 1000, type
+= “bootstrap”) %\>% calculate(stat = “mean”)
+
+boot\_nomean \<- edu\_diff %\>% specify(response = born, success = “No”)
+%\>% specify(response = educ) %\>% generate(reps = 1000, type =
+“bootstrap”) %\>% calculate(stat = “mean”)
+
+\`\`\`
+
 ### Exercise 14
 
 ### Exercise 15
