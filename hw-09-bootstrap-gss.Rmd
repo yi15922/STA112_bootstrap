@@ -142,11 +142,11 @@ non_NA_email %>%
 
 ```
 
+The media is a preferrable measure of the amount of time Americans spend using email, because the distribution of time spent on email is right skewed, and the median statistic is able to be insensitive to skew whereas mean is not.
+
 ### Exercise 12
 
-```{r}
-
-```
+Bootstrapping is used to estimate a statistic that describes the amount of time that all Americans spend using email weekly. It does this by creating a bootstrap distribution of medians using several samples from the email data, and then creating a confidence interval that estimates the true population median to a given degree of certainty/confidence.
 
 ### Exercise 13
 
