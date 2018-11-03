@@ -126,9 +126,13 @@ harass_bs %>%
     ## 1 0.152 0.192
 
 The 95% bootstrap confidence interval based on the distribution we
-constructed above is
+constructed above is 0.152 to 0.192.
 
 ### Exercise 6
+
+We are 95% confident that the median percentage of those who have been
+harassed by their superiors or co-workers at their job is between 15.2%
+and 19.2%.
 
 ### Exercise 7
 
