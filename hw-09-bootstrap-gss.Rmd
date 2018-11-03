@@ -44,7 +44,7 @@ harassed <- gss2016 %>%
 
 ### Exercise 3
 
-```{r}
+```{r harass5-prop}
 harassed %>%
   group_by(harass5) %>%
   summarise(n = n()) %>%
@@ -79,7 +79,7 @@ ggplot(data = harass_bs,
 
 ### Exercise 5
 
-```{r}
+```{r harass5-confint}
 harass_bs %>%
   summarise(
     lower = quantile(stat, 0.025),
@@ -92,9 +92,7 @@ The 95% bootstrap confidence interval based on the distribution we constructed a
 
 ### Exercise 6
 
-```{r}
-
-```
+We are 95% confident that the median percentage of those who have been harassed by their superiors or co-workers at their job is between 15.2% and 19.2%.
 
 ### Exercise 7
 

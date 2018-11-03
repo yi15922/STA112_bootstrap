@@ -130,6 +130,10 @@ constructed above is 0.152 to 0.192.
 
 ### Exercise 6
 
+We are 95% confident that the median percentage of those who have been
+harassed by their superiors or co-workers at their job is between 15.2%
+and 19.2%.
+
 ### Exercise 7
 
 To be 95% confident means that that there is a 95% chance that the
