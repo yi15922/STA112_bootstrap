@@ -28,23 +28,23 @@ set.seed(12354)
 
 ``` r
 gss2016 %>%
-  select(harass5)
+  count(harass5)
 ```
 
-    ## # A tibble: 2,867 x 1
-    ##    harass5       
-    ##    <chr>         
-    ##  1 Not applicable
-    ##  2 Not applicable
-    ##  3 No            
-    ##  4 Not applicable
-    ##  5 No            
-    ##  6 Not applicable
-    ##  7 Not applicable
-    ##  8 No            
-    ##  9 Not applicable
-    ## 10 No            
-    ## # ... with 2,857 more rows
+    ## # A tibble: 6 x 2
+    ##   harass5                                                     n
+    ##   <chr>                                                   <int>
+    ## 1 Does not apply (i do not have a job/superior/co-worker)    96
+    ## 2 Don't know                                                  1
+    ## 3 No                                                       1136
+    ## 4 No answer                                                   7
+    ## 5 Not applicable                                           1390
+    ## 6 Yes                                                       237
+
+The possible responses to this question is Does not apply (i do not have
+a job/superior/co-worker), Don’t know, No, No answer, Not applicable,
+and Yes. The number of people who said each resposne is 96, 1, 1136, 7,
+1390, and 237 respectively.
 
 ### Exercise 2
 

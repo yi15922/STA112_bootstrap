@@ -30,10 +30,10 @@ set.seed(12354)
 
 ```{r}
 gss2016 %>%
-  select(harass5)
+  count(harass5)
 ```
 
-
+The possible responses to this question is Does not apply (i do not have a job/superior/co-worker), Don't know, No, No answer, Not applicable, and Yes. The number of people who said each resposne is 96, 1, 1136, 7, 1390, and 237 respectively.
 
 ### Exercise 2
 
