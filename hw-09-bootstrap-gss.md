@@ -1,7 +1,7 @@
 HW 09 - Bootstrapping the GSS
 ================
-Team Awesome
-2018-10-25
+Team yiit
+2018-11-03
 
 ### Load packages
 
@@ -22,8 +22,6 @@ gss2016 <- read_csv("gss2016.csv")
 set.seed(12354)
 ```
 
-(Add code chunks, exercise headings, and narrative as needed below.)
-
 ### Exercise 1
 
 ``` r
@@ -41,17 +39,12 @@ gss2016 %>%
     ## 5 Not applicable                                           1390
     ## 6 Yes                                                       237
 
-The possible responses to this question are Does not apply (i do not
-have a job/superior/co-worker), Don’t know, No, No answer, Not
-applicable, and Yes. The number of people who said each response is 96,
-1, 1136, 7, 1390, and 237 respectively.
+The possible responses to this question is Does not apply (i do not have
+a job/superior/co-worker), Don’t know, No, No answer, Not applicable,
+and Yes. The number of people who said each resposne is 96, 1, 1136, 7,
+1390, and 237 respectively.
 
 ### Exercise 2
-
-``` r
-harassed <- gss2016 %>%
-  filter(harass5 == "Yes" | harass5 == "No")
-```
 
 ### Exercise 3
 
