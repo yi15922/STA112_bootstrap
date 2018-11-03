@@ -150,11 +150,23 @@ Bootstrapping is used to estimate a statistic that describes the amount of time 
 
 ### Exercise 13
 
-```{r}
+```{r confidence-interval-email}
+
+email_bs <- non_NA_email %>%
+  specify(response = emailmin_week) %>% 
+  generate(reps = 1000, 
+           type = "bootstrap") %>% 
+  calculate(stat = "median")
+
+email_bs
+
+email_bs %>%
+summarize(lower = format(round(quantile(stat, 0.05), 4), nsmall = 4),
+upper = format(round(quantile(stat, 0.95), 4), nsmall = 4))
 
 ```
 
-
+The 90% confidence interval is (120, 120). This means that we can say with 90% confidence that the median time that American workers spend using email is 2 hours per week. The calculated confidence interval has the same upper and lower bounds most likely because 120 was a modal value in the original data, meaning that many individuals spent 2 hours per week, such that a confidence interval with 90% confidence would suggest that Americans spend 2 hours per week on email.
 
 ### Exercise 14
 
