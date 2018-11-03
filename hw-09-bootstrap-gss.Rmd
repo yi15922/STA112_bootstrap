@@ -1,7 +1,7 @@
 ---
 title: "HW 09 - Bootstrapping the GSS"
-author: "Team Awesome"
-date: "2018-10-25"
+author: "Team yiit"
+date: "2018-11-03"
 output: github_document
 ---
 
@@ -26,8 +26,6 @@ gss2016 <- read_csv("gss2016.csv")
 set.seed(12354)
 ```
 
-(Add code chunks, exercise headings, and narrative as needed below.)
-
 ### Exercise 1
 
 ```{r}
@@ -35,21 +33,25 @@ gss2016 %>%
   count(harass5)
 ```
 
-The possible responses to this question is Does not apply (i do not have a job/superior/co-worker), Don't know, No, No answer, Not applicable, and Yes. The number of people who said each resposne is 96, 1, 1136, 7, 1390, and 237 respectively.
+The possible responses to this question are Does not apply (i do not have a job/superior/co-worker), Don't know, No, No answer, Not applicable, and Yes. The number of people who said each response is 96, 1, 1136, 7, 1390, and 237 respectively.
 
 ### Exercise 2
 
-```{r}
-
+```{r filter-harass5}
+harassed <- gss2016 %>%
+  filter(harass5 == "Yes" | harass5 == "No")
 ```
 
 ### Exercise 3
 
 ```{r}
-
+harassed %>%
+  group_by(harass5) %>%
+  summarise(n = n()) %>%
+  mutate(prop = scales::percent(n / sum(n)))
 ```
 
-
+82.7% of respondents for whom this question is applicable to have been harassed by their superiors or co-workers at their job.
 
 ### Exercise 4
 
