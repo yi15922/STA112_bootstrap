@@ -100,7 +100,7 @@ harass_bs
 ggplot(data = harass_bs, 
        mapping = aes(x = stat)) +
   geom_histogram(binwidth = 0.005, 
-                 fill = "Blue", 
+                 fill = "Grey", 
                  color = "Black") +
   labs(title = "Americans who have been harassed at work",
        subtitle = "Bootstrap distribution of proportions",
@@ -136,13 +136,70 @@ and 19.2%.
 
 ### Exercise 7
 
+To be 95% confident means that that there is a 95% chance that the
+confidence interval determined contains the true value of the proportion
+of Americans who are harassed at work. We can say with 95% confidence,
+or certainty, that the true percentage of Americans who are harassed at
+work lies within our confidence interval.
+
 ### Exercise 8
+
+90% confidence interval: (0.157, 0.189)
+
+99% confidence interval: (0.147, 0.196)
+
+If the confidence that our interval contains the true proportion of
+Americans who are harassed at work increases, then the interval must
+become wider, and vice versa. This is because as the interval widens to
+cover more potential proportion values, there is a greater probability
+(or confidence) that it contains the true proportion.
 
 ### Exercise 9
 
+``` r
+gss2016 <- gss2016 %>%
+  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) 
+```
+
+    ## Warning in evalq(60 * as.numeric(emailhr) + as.numeric(emailmin),
+    ## <environment>): NAs introduced by coercion
+    
+    ## Warning in evalq(60 * as.numeric(emailhr) + as.numeric(emailmin),
+    ## <environment>): NAs introduced by coercion
+
 ### Exercise 10
 
+``` r
+non_NA_email <- gss2016 %>%
+  select(emailmin_week) %>%
+  filter(is.na(emailmin_week) == FALSE)
+```
+
 ### Exercise 11
+
+``` r
+ggplot(data = non_NA_email, 
+       mapping = aes(x = emailmin_week)) +
+  geom_histogram(binwidth = 500, 
+                 fill = "Grey", 
+                 color = "Black") +
+  labs(title = "Distribution of Email Time",
+       x = "Email Time (min)",
+       y = "Count")
+```
+
+![](hw-09-bootstrap-gss_files/figure-gfm/non-na-visualization-1.png)<!-- -->
+
+``` r
+non_NA_email %>%
+  summarise(med = median(emailmin_week), 
+            mean = mean(emailmin_week))
+```
+
+    ## # A tibble: 1 x 2
+    ##     med  mean
+    ##   <dbl> <dbl>
+    ## 1   120  417.
 
 ### Exercise 12
 
