@@ -185,6 +185,11 @@ gss2016 %>%
 
 ### Exercise 10
 
+``` r
+non_NA_email <- gss2016 %>%
+  filter(is.na(emailmin) == FALSE)
+```
+
 ### Exercise 11
 
 ### Exercise 12

@@ -114,12 +114,11 @@ gss2016 %>%
   select(emailmin_week)
 ```
 
-
-
 ### Exercise 10
 
-```{r}
-
+```{r no-NA-email}
+non_NA_email <- gss2016 %>%
+  filter(is.na(emailmin) == FALSE)
 ```
 
 ### Exercise 11
@@ -127,8 +126,6 @@ gss2016 %>%
 ```{r}
 
 ```
-
-
 
 ### Exercise 12
 
