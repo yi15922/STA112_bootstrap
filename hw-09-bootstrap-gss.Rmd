@@ -109,21 +109,36 @@ If the confidence that our interval contains the true proportion of Americans wh
 ### Exercise 9
 
 ```{r email-weekly}
-gss2016 %>%
-  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) %>%
-  select(emailmin_week)
+
+gss2016 <- gss2016 %>%
+  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) 
+
 ```
 
 ### Exercise 10
 
 ```{r no-NA-email}
 non_NA_email <- gss2016 %>%
-  filter(is.na(emailmin) == FALSE)
+  select(emailmin_week) %>%
+  filter(is.na(emailmin_week) == FALSE)
 ```
 
 ### Exercise 11
 
-```{r}
+```{r non-na-visualization}
+
+ggplot(data = non_NA_email, 
+       mapping = aes(x = emailmin_week)) +
+  geom_histogram(binwidth = 500, 
+                 fill = "Grey", 
+                 color = "Black") +
+  labs(title = "Distribution of Email Time",
+       x = "Email Time (min)",
+       y = "Count")
+
+non_NA_email %>%
+  summarise(med = median(emailmin_week), 
+            mean = mean(emailmin_week))
 
 ```
 

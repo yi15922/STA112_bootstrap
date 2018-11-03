@@ -157,9 +157,8 @@ cover more potential proportion values, there is a greater probability
 ### Exercise 9
 
 ``` r
-gss2016 %>%
-  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) %>%
-  select(emailmin_week)
+gss2016 <- gss2016 %>%
+  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) 
 ```
 
     ## Warning in evalq(60 * as.numeric(emailhr) + as.numeric(emailmin),
@@ -168,29 +167,39 @@ gss2016 %>%
     ## Warning in evalq(60 * as.numeric(emailhr) + as.numeric(emailmin),
     ## <environment>): NAs introduced by coercion
 
-    ## # A tibble: 2,867 x 1
-    ##    emailmin_week
-    ##            <dbl>
-    ##  1           720
-    ##  2            30
-    ##  3            NA
-    ##  4            10
-    ##  5            NA
-    ##  6           120
-    ##  7          2400
-    ##  8            NA
-    ##  9             0
-    ## 10            NA
-    ## # ... with 2,857 more rows
-
 ### Exercise 10
 
 ``` r
 non_NA_email <- gss2016 %>%
-  filter(is.na(emailmin) == FALSE)
+  select(emailmin_week) %>%
+  filter(is.na(emailmin_week) == FALSE)
 ```
 
 ### Exercise 11
+
+``` r
+ggplot(data = non_NA_email, 
+       mapping = aes(x = emailmin_week)) +
+  geom_histogram(binwidth = 500, 
+                 fill = "Grey", 
+                 color = "Black") +
+  labs(title = "Distribution of Email Time",
+       x = "Email Time (min)",
+       y = "Count")
+```
+
+![](hw-09-bootstrap-gss_files/figure-gfm/non-na-visualization-1.png)<!-- -->
+
+``` r
+non_NA_email %>%
+  summarise(med = median(emailmin_week), 
+            mean = mean(emailmin_week))
+```
+
+    ## # A tibble: 1 x 2
+    ##     med  mean
+    ##   <dbl> <dbl>
+    ## 1   120  417.
 
 ### Exercise 12
 
