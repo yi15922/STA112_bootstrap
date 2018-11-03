@@ -65,6 +65,33 @@ harassed <- gss2016 %>%
 
 ### Exercise 9
 
+``` r
+gss2016 %>%
+  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) %>%
+  select(emailmin_week)
+```
+
+    ## Warning in evalq(60 * as.numeric(emailhr) + as.numeric(emailmin),
+    ## <environment>): NAs introduced by coercion
+    
+    ## Warning in evalq(60 * as.numeric(emailhr) + as.numeric(emailmin),
+    ## <environment>): NAs introduced by coercion
+
+    ## # A tibble: 2,867 x 1
+    ##    emailmin_week
+    ##            <dbl>
+    ##  1           720
+    ##  2            30
+    ##  3            NA
+    ##  4            10
+    ##  5            NA
+    ##  6           120
+    ##  7          2400
+    ##  8            NA
+    ##  9             0
+    ## 10            NA
+    ## # ... with 2,857 more rows
+
 ### Exercise 10
 
 ### Exercise 11

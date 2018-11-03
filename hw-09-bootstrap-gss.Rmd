@@ -86,8 +86,10 @@ harassed <- gss2016 %>%
 
 ### Exercise 9
 
-```{r}
-
+```{r email-weekly}
+gss2016 %>%
+  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) %>%
+  select(emailmin_week)
 ```
 
 
