@@ -13,18 +13,38 @@ library(tidyverse)
 ### Load data
 
 ``` r
-#evals <- read_csv("data/evals-mod.csv")
+gss2016 <- read_csv("data/gss2016.csv")
 ```
 
 ### Set seed
 
 ``` r
-#set seed
+set.seed(12354)
 ```
 
 (Add code chunks, exercise headings, and narrative as needed below.)
 
 ### Exercise 1
+
+``` r
+gss2016 %>%
+  select(harass5)
+```
+
+    ## # A tibble: 2,867 x 1
+    ##    harass5       
+    ##    <chr>         
+    ##  1 Not applicable
+    ##  2 Not applicable
+    ##  3 No            
+    ##  4 Not applicable
+    ##  5 No            
+    ##  6 Not applicable
+    ##  7 Not applicable
+    ##  8 No            
+    ##  9 Not applicable
+    ## 10 No            
+    ## # ... with 2,857 more rows
 
 ### Exercise 2
 
