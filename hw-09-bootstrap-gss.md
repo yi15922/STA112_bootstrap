@@ -320,7 +320,7 @@ gss2016 <- gss2016 %>%
   filter(polviews != "Don't know" & polviews != "No answer")
 
   
-simple_politics <- mutate(gss2016, advfront = case_when(
+gss2016 <- mutate(gss2016, science = case_when(
   str_detect(advfront, "agree")           ~"Yes", 
   TRUE                                    ~"No"
 ))
