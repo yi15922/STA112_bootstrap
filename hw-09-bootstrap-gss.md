@@ -74,11 +74,11 @@ harassed by their superiors or co-workers at their job.
 ### Exercise 4
 
 ``` r
-harass_bs <- 
+harass_bs <-
   harassed %>%
-    specify(response = harass5, success = "Yes") %>% 
-    generate(reps = 1000, type = "bootstrap") %>% 
-    calculate(stat = "prop")
+  specify(response = harass5, success = "Yes") %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "prop")
 
 harass_bs
 ```
@@ -99,15 +99,21 @@ harass_bs
     ## # ... with 990 more rows
 
 ``` r
-ggplot(data = harass_bs, 
-       mapping = aes(x = stat)) +
-  geom_histogram(binwidth = 0.005, 
-                 fill = "Grey", 
-                 color = "Black") +
-  labs(title = "Americans who have been harassed at work",
-       subtitle = "Bootstrap distribution of proportions",
-       x = "Proportion",
-       y = "Count")
+ggplot(
+  data = harass_bs,
+  mapping = aes(x = stat)
+) +
+  geom_histogram(
+    binwidth = 0.005,
+    fill = "Grey",
+    color = "Black"
+  ) +
+  labs(
+    title = "Americans who have been harassed at work",
+    subtitle = "Bootstrap distribution of proportions",
+    x = "Proportion",
+    y = "Count"
+  )
 ```
 
 ![](hw-09-bootstrap-gss_files/figure-gfm/visualize-bootstrap-1.png)<!-- -->
@@ -119,7 +125,7 @@ harass_bs %>%
   summarise(
     lower = quantile(stat, 0.025),
     upper = quantile(stat, 0.975),
-    )
+  )
 ```
 
     ## # A tibble: 1 x 2
@@ -160,7 +166,7 @@ cover more potential proportion values, there is a greater probability
 
 ``` r
 gss2016 <- gss2016 %>%
-  mutate(email = 60*as.numeric(emailhr) + as.numeric(emailmin)) 
+  mutate(email = 60 * as.numeric(emailhr) + as.numeric(emailmin))
 ```
 
     ## Warning in evalq(60 * as.numeric(emailhr) + as.numeric(emailmin),
@@ -180,22 +186,30 @@ non_NA_email <- gss2016 %>%
 ### Exercise 11
 
 ``` r
-ggplot(data = non_NA_email, 
-       mapping = aes(x = email)) +
-  geom_histogram(binwidth = 500, 
-                 fill = "Grey", 
-                 color = "Black") +
-  labs(title = "Distribution of Email Time",
-       x = "Email Time (min)",
-       y = "Count")
+ggplot(
+  data = non_NA_email,
+  mapping = aes(x = email)
+) +
+  geom_histogram(
+    binwidth = 500,
+    fill = "Grey",
+    color = "Black"
+  ) +
+  labs(
+    title = "Distribution of Email Time",
+    x = "Email Time (min)",
+    y = "Count"
+  )
 ```
 
 ![](hw-09-bootstrap-gss_files/figure-gfm/non-na-visualization-1.png)<!-- -->
 
 ``` r
 non_NA_email %>%
-  summarise(med = median(email), 
-            mean = mean(email))
+  summarise(
+    med = median(email),
+    mean = mean(email)
+  )
 ```
 
     ## # A tibble: 1 x 2
@@ -220,9 +234,11 @@ the true population median to a given degree of certainty/confidence.
 
 ``` r
 email_bs <- non_NA_email %>%
-  specify(response = email) %>% 
-  generate(reps = 1000, 
-           type = "bootstrap") %>% 
+  specify(response = email) %>%
+  generate(
+    reps = 1000,
+    type = "bootstrap"
+  ) %>%
   calculate(stat = "median")
 
 email_bs
@@ -245,8 +261,10 @@ email_bs
 
 ``` r
 email_bs %>%
-summarize(lower = format(round(quantile(stat, 0.05), 4), nsmall = 4),
-upper = format(round(quantile(stat, 0.95), 4), nsmall = 4))
+  summarize(
+    lower = format(round(quantile(stat, 0.05), 4), nsmall = 4),
+    upper = format(round(quantile(stat, 0.95), 4), nsmall = 4)
+  )
 ```
 
     ## # A tibble: 1 x 2
@@ -285,22 +303,30 @@ boot_meandiff <- gss_noNA %>%
   generate(reps = 1000, type = "bootstrap") %>%
   calculate(stat = "diff in means", order = c(born = "Yes", born = "No"))
 
-ggplot(data = boot_meandiff, 
-       mapping = aes(x = stat)) +
-  geom_histogram(binwidth = 0.1, 
-                 fill = "Grey", 
-                 color = "Black") +
-  labs(title = "Difference in mean years of education for those born and not born in the US",
-       x = "Difference in mean years of education",
-       y = "Count")
+ggplot(
+  data = boot_meandiff,
+  mapping = aes(x = stat)
+) +
+  geom_histogram(
+    binwidth = 0.1,
+    fill = "Grey",
+    color = "Black"
+  ) +
+  labs(
+    title = "Difference in mean years of education for those born and not born in the US",
+    x = "Difference in mean years of education",
+    y = "Count"
+  )
 ```
 
 ![](hw-09-bootstrap-gss_files/figure-gfm/exercise14-1.png)<!-- -->
 
 ``` r
 boot_meandiff %>%
-  summarise(quantile(stat, 0.005), 
-            quantile(stat, 0.995))
+  summarise(
+    quantile(stat, 0.005),
+    quantile(stat, 0.995)
+  )
 ```
 
     ## # A tibble: 1 x 2
@@ -316,7 +342,7 @@ between 0.166 and 1.26.
 
 ``` r
 gss2016 <- mutate(gss2016, science = case_when(
-  advfront == "Agree" | advfront == "Strongly agree"           ~ "Yes", 
+  advfront == "Agree" | advfront == "Strongly agree"             ~ "Yes",
   advfront == "Disagree" | advfront == "Strongly disagree"       ~ "No"
 ))
 ```
@@ -325,8 +351,8 @@ gss2016 <- mutate(gss2016, science = case_when(
 
 ``` r
 gss2016 <- mutate(gss2016, polside = case_when(
-  polviews == "Liberal" | polviews == "Extremely liberal" | polviews == "Slightly liberal"          ~ "Liberal", 
-  polviews == "Conservative" | polviews == "Extrmly conservative" | polviews == "Slghtly conservative" ~ "Conservative" 
+  polviews == "Liberal" | polviews == "Extremely liberal" | polviews == "Slightly liberal" ~ "Liberal",
+  polviews == "Conservative" | polviews == "Extrmly conservative" | polviews == "Slghtly conservative" ~ "Conservative"
 ))
 ```
 
@@ -337,19 +363,40 @@ politics_filtered <- gss2016 %>%
   select(polside, science) %>%
   drop_na(polside) %>%
   drop_na(science)
-
-politics_filtered %>%
-  count(polside, science)
 ```
-
-    ## # A tibble: 4 x 3
-    ##   polside      science     n
-    ##   <chr>        <chr>   <int>
-    ## 1 Conservative No         84
-    ## 2 Conservative Yes       349
-    ## 3 Liberal      No         43
-    ## 4 Liberal      Yes       331
 
 ### Exercise 18
 
+Bootstrapping will take random and equally sized samples of the
+difference in proportion of liberals and not liberals who think that
+science research is necessary. It does this many times with replacement
+and will eventually provide a data set of difference in proportions. We
+can examine the distribution of the data set and calculate a confidence
+interval that estimates the true population median to a given degree of
+certainty/confidence.
+
 ### Exercise 19
+
+``` r
+boot_politics <- politics_filtered %>%
+  specify(response = science, explanatory = polside, success = "Yes") %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "diff in props", order = c(polside = "Liberal", polside = "Conservative"))
+
+politics_confidence <- boot_politics %>%
+  summarise(
+    quantile(stat, 0.05),
+    quantile(stat, 0.95)
+  )
+
+politics_confidence
+```
+
+    ## # A tibble: 1 x 2
+    ##   `quantile(stat, 0.05)` `quantile(stat, 0.95)`
+    ##                    <dbl>                  <dbl>
+    ## 1                 0.0354                  0.120
+
+We can say with 99% confidence, or certainty, that the difference in
+proportion of liberal to conservative people who think that science
+research is necessary lies between 0.0354 and 0.120.
