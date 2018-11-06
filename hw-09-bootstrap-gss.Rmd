@@ -10,13 +10,14 @@ output: github_document
 ```{r load-packages, message=FALSE}
 library(infer)
 library(tidyverse)
+library(readr)
 ```
 
 ### Load data
 
 ```{r load-data, message=FALSE}
 
-gss2016 <- read_csv("gss2016.csv")
+gss2016 <- read_csv("gss2016.csv", guess_max = )
 
 ```
 
@@ -111,7 +112,7 @@ If the confidence that our interval contains the true proportion of Americans wh
 ```{r email-weekly}
 
 gss2016 <- gss2016 %>%
-  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) 
+  mutate(email = 60*as.numeric(emailhr) + as.numeric(emailmin)) 
 
 ```
 
@@ -119,8 +120,8 @@ gss2016 <- gss2016 %>%
 
 ```{r no-NA-email}
 non_NA_email <- gss2016 %>%
-  select(emailmin_week) %>%
-  filter(is.na(emailmin_week) == FALSE)
+  select(email) %>%
+  filter(is.na(email) == FALSE)
 ```
 
 ### Exercise 11
@@ -128,7 +129,7 @@ non_NA_email <- gss2016 %>%
 ```{r non-na-visualization}
 
 ggplot(data = non_NA_email, 
-       mapping = aes(x = emailmin_week)) +
+       mapping = aes(x = email)) +
   geom_histogram(binwidth = 500, 
                  fill = "Grey", 
                  color = "Black") +
@@ -137,8 +138,8 @@ ggplot(data = non_NA_email,
        y = "Count")
 
 non_NA_email %>%
-  summarise(med = median(emailmin_week), 
-            mean = mean(emailmin_week))
+  summarise(med = median(email), 
+            mean = mean(email))
 
 ```
 
@@ -153,7 +154,7 @@ Bootstrapping is used to estimate a statistic that describes the amount of time 
 ```{r confidence-interval-email}
 
 email_bs <- non_NA_email %>%
-  specify(response = emailmin_week) %>% 
+  specify(response = email) %>% 
   generate(reps = 1000, 
            type = "bootstrap") %>% 
   calculate(stat = "median")
@@ -170,25 +171,40 @@ The 90% confidence interval is (120, 120). This means that we can say with 90% c
 
 ### Exercise 14
 
-```{r}
-edu_diff <- gss2016 %>%
-  filter(is.na(as.numeric(educ)) == FALSE)
+```{r exercise14}
+gss2016 <- mutate(gss2016, educ = as.integer(gss2016$educ))
 
-edu_diff<- edu_diff %>%
-  filter(born == "Yes" | born == "No")
 
-boot_yesmean <- edu_diff %>%
-  specify(response = born, success = "Yes") %>%
-  specify(response = educ) %>%
+gss_noNA <- gss2016 %>%
+  select(educ, born) %>%
+  filter(born != "No answer") %>%
+  filter(is.na(educ) == "FALSE")
+
+
+
+boot_meandiff <- gss_noNA %>%
+  specify(response = educ, explanatory = born) %>%
   generate(reps = 1000, type = "bootstrap") %>%
-  calculate(stat = "mean")
+  calculate(stat = "diff in means", order = c(born = "Yes", born = "No"))
 
-boot_nomean <- edu_diff %>%
-  specify(response = born, success = "No") %>%
-  specify(response = educ) %>%
-  generate(reps = 1000, type = "bootstrap") %>%
-  calculate(stat = "mean")
+ggplot(data = boot_meandiff, 
+       mapping = aes(x = stat)) +
+  geom_histogram(binwidth = 0.1, 
+                 fill = "Grey", 
+                 color = "Black") +
+  labs(title = "Difference in mean years of education for those born and not born in the US",
+       x = "Difference in mean years of education",
+       y = "Count")
+
+boot_meandiff %>%
+  summarise(quantile(stat, 0.005), 
+            quantile(stat, 0.995))
+
+
 ```
+
+We can say with 99% confidence, or certainty, that the difference in mean years of education for those born and not born in the US lies between 0.166 and 1.26.
+
 
 ### Exercise 15
 

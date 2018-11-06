@@ -8,12 +8,13 @@ Team yiit
 ``` r
 library(infer)
 library(tidyverse)
+library(readr)
 ```
 
 ### Load data
 
 ``` r
-gss2016 <- read_csv("gss2016.csv")
+gss2016 <- read_csv("gss2016.csv", guess_max = )
 ```
 
 ### Set seed
@@ -158,7 +159,7 @@ cover more potential proportion values, there is a greater probability
 
 ``` r
 gss2016 <- gss2016 %>%
-  mutate(emailmin_week = 60*as.numeric(emailhr) + as.numeric(emailmin)) 
+  mutate(email = 60*as.numeric(emailhr) + as.numeric(emailmin)) 
 ```
 
     ## Warning in evalq(60 * as.numeric(emailhr) + as.numeric(emailmin),
@@ -171,15 +172,15 @@ gss2016 <- gss2016 %>%
 
 ``` r
 non_NA_email <- gss2016 %>%
-  select(emailmin_week) %>%
-  filter(is.na(emailmin_week) == FALSE)
+  select(email) %>%
+  filter(is.na(email) == FALSE)
 ```
 
 ### Exercise 11
 
 ``` r
 ggplot(data = non_NA_email, 
-       mapping = aes(x = emailmin_week)) +
+       mapping = aes(x = email)) +
   geom_histogram(binwidth = 500, 
                  fill = "Grey", 
                  color = "Black") +
@@ -192,8 +193,8 @@ ggplot(data = non_NA_email,
 
 ``` r
 non_NA_email %>%
-  summarise(med = median(emailmin_week), 
-            mean = mean(emailmin_week))
+  summarise(med = median(email), 
+            mean = mean(email))
 ```
 
     ## # A tibble: 1 x 2
@@ -201,28 +202,114 @@ non_NA_email %>%
     ##   <dbl> <dbl>
     ## 1   120  417.
 
+The media is a preferrable measure of the amount of time Americans spend
+using email, because the distribution of time spent on email is right
+skewed, and the median statistic is able to be insensitive to skew
+whereas mean is not.
+
 ### Exercise 12
+
+Bootstrapping is used to estimate a statistic that describes the amount
+of time that all Americans spend using email weekly. It does this by
+creating a bootstrap distribution of medians using several samples from
+the email data, and then creating a confidence interval that estimates
+the true population median to a given degree of certainty/confidence.
 
 ### Exercise 13
 
 ``` r
-edu_diff <- gss2016 %>%
-  filter(is.na(educ) == FALSE)
+email_bs <- non_NA_email %>%
+  specify(response = email) %>% 
+  generate(reps = 1000, 
+           type = "bootstrap") %>% 
+  calculate(stat = "median")
+
+email_bs
 ```
 
-edu\_diff\<- edu\_diff %\>% filter(born == “Yes” | born == “No”)
+    ## # A tibble: 1,000 x 2
+    ##    replicate  stat
+    ##        <int> <dbl>
+    ##  1         1   120
+    ##  2         2   120
+    ##  3         3   120
+    ##  4         4   120
+    ##  5         5   120
+    ##  6         6   120
+    ##  7         7   120
+    ##  8         8   120
+    ##  9         9   120
+    ## 10        10   120
+    ## # ... with 990 more rows
 
-boot\_yesmean \<- edu\_diff %\>% specify(response = born, success =
-“Yes”) %\>% specify(response = educ) %\>% generate(reps = 1000, type
-= “bootstrap”) %\>% calculate(stat = “mean”)
+``` r
+email_bs %>%
+summarize(lower = format(round(quantile(stat, 0.05), 4), nsmall = 4),
+upper = format(round(quantile(stat, 0.95), 4), nsmall = 4))
+```
 
-boot\_nomean \<- edu\_diff %\>% specify(response = born, success = “No”)
-%\>% specify(response = educ) %\>% generate(reps = 1000, type =
-“bootstrap”) %\>% calculate(stat = “mean”)
+    ## # A tibble: 1 x 2
+    ##   lower    upper   
+    ##   <chr>    <chr>   
+    ## 1 120.0000 120.0000
 
-\`\`\`
+The 90% confidence interval is (120, 120). This means that we can say
+with 90% confidence that the median time that American workers spend
+using email is 2 hours per week. The calculated confidence interval has
+the same upper and lower bounds most likely because 120 was a modal
+value in the original data, meaning that many individuals spent 2 hours
+per week, such that a confidence interval with 90% confidence would
+suggest that Americans spend 2 hours per week on
+    email.
 
 ### Exercise 14
+
+``` r
+gss2016 <- mutate(gss2016, educ = as.integer(gss2016$educ))
+```
+
+    ## Warning in evalq(as.integer(gss2016$educ), <environment>): NAs introduced
+    ## by coercion
+
+``` r
+gss_noNA <- gss2016 %>%
+  select(educ, born) %>%
+  filter(born != "No answer") %>%
+  filter(is.na(educ) == "FALSE")
+
+
+
+boot_meandiff <- gss_noNA %>%
+  specify(response = educ, explanatory = born) %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "diff in means", order = c(born = "Yes", born = "No"))
+
+ggplot(data = boot_meandiff, 
+       mapping = aes(x = stat)) +
+  geom_histogram(binwidth = 0.1, 
+                 fill = "Grey", 
+                 color = "Black") +
+  labs(title = "Difference in mean years of education for those born and not born in the US",
+       x = "Difference in mean years of education",
+       y = "Count")
+```
+
+![](hw-09-bootstrap-gss_files/figure-gfm/exercise14-1.png)<!-- -->
+
+``` r
+boot_meandiff %>%
+  summarise(quantile(stat, 0.005), 
+            quantile(stat, 0.995))
+```
+
+    ## # A tibble: 1 x 2
+    ##   `quantile(stat, 0.005)` `quantile(stat, 0.995)`
+    ##                     <dbl>                   <dbl>
+    ## 1                   0.166                    1.26
+
+We can say with 99% confidence, or certainty, that the difference in
+mean years of education for those born and not born in the US lies
+between 0.166 and 1.26.
 
 ### Exercise 15
 
