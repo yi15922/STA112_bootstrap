@@ -208,7 +208,20 @@ We can say with 99% confidence, or certainty, that the difference in mean years 
 
 ### Exercise 15
 
-```{r}
+```{r politics}
+
+
+
+gss2016 <- gss2016 %>%
+  select(advfront, polviews) %>%
+  filter(advfront != "Dont know" & advfront != "No answer" & advfront != "Not applicable") %>%
+  filter(polviews != "Don't know" & polviews != "No answer")
+
+  
+simple_politics <- mutate(gss2016, advfront = case_when(
+  str_detect(advfront, "agree")           ~"Yes", 
+  TRUE                                    ~"No"
+))
 
 ```
 

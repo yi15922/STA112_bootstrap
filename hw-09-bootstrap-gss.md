@@ -313,6 +313,19 @@ between 0.166 and 1.26.
 
 ### Exercise 15
 
+``` r
+gss2016 <- gss2016 %>%
+  select(advfront, polviews) %>%
+  filter(advfront != "Dont know" & advfront != "No answer" & advfront != "Not applicable") %>%
+  filter(polviews != "Don't know" & polviews != "No answer")
+
+  
+simple_politics <- mutate(gss2016, advfront = case_when(
+  str_detect(advfront, "agree")           ~"Yes", 
+  TRUE                                    ~"No"
+))
+```
+
 ### Exercise 16
 
 ### Exercise 17
