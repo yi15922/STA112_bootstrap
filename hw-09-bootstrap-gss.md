@@ -328,6 +328,22 @@ gss2016 <- mutate(gss2016, science = case_when(
 
 ### Exercise 16
 
+``` r
+gss2016 <- mutate(gss2016, polside = case_when(
+  str_detect(polviews, "liberal")           ~"Liberal", 
+  TRUE                                    ~"Conservative"
+))
+
+gss2016 %>%
+  count(polside)
+```
+
+    ## # A tibble: 2 x 2
+    ##   polside          n
+    ##   <chr>        <int>
+    ## 1 Conservative  1093
+    ## 2 Liberal        214
+
 ### Exercise 17
 
 ### Exercise 18
