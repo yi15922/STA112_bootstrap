@@ -11,6 +11,7 @@ output: github_document
 library(infer)
 library(tidyverse)
 library(readr)
+library(stringr)
 ```
 
 ### Load data
@@ -210,17 +211,9 @@ We can say with 99% confidence, or certainty, that the difference in mean years 
 
 ```{r politics}
 
-
-
-gss2016 <- gss2016 %>%
-  select(advfront, polviews) %>%
-  filter(advfront != "Dont know" & advfront != "No answer" & advfront != "Not applicable") %>%
-  filter(polviews != "Don't know" & polviews != "No answer")
-
-  
 gss2016 <- mutate(gss2016, science = case_when(
-  str_detect(advfront, "agree")           ~"Yes", 
-  TRUE                                    ~"No"
+  advfront == "Agree" | advfront == "Strongly agree"           ~ "Yes", 
+  advfront == "Disagree" | advfront == "Strongly disagree"       ~ "No"
 ))
 
 ```
@@ -231,18 +224,22 @@ gss2016 <- mutate(gss2016, science = case_when(
 
 ```{r pol_sides}
 gss2016 <- mutate(gss2016, polside = case_when(
-  str_detect(polviews, "liberal")           ~"Liberal", 
-  TRUE                                    ~"Conservative"
+  polviews == "Liberal" | polviews == "Extremely liberal" | polviews == "Slightly liberal"          ~ "Liberal", 
+  polviews == "Conservative" | polviews == "Extrmly conservative" | polviews == "Slghtly conservative" ~ "Conservative" 
 ))
 
-gss2016 %>%
-  count(polside)
 ```
 
 ### Exercise 17
 
-```{r}
+```{r filter_politics}
+politics_filtered <- gss2016 %>%
+  select(polside, science) %>%
+  drop_na(polside) %>%
+  drop_na(science)
 
+politics_filtered %>%
+  count(polside, science)
 ```
 
 

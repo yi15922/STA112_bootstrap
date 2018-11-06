@@ -9,6 +9,7 @@ Team yiit
 library(infer)
 library(tidyverse)
 library(readr)
+library(stringr)
 ```
 
 ### Load data
@@ -314,15 +315,9 @@ between 0.166 and 1.26.
 ### Exercise 15
 
 ``` r
-gss2016 <- gss2016 %>%
-  select(advfront, polviews) %>%
-  filter(advfront != "Dont know" & advfront != "No answer" & advfront != "Not applicable") %>%
-  filter(polviews != "Don't know" & polviews != "No answer")
-
-  
 gss2016 <- mutate(gss2016, science = case_when(
-  str_detect(advfront, "agree")           ~"Yes", 
-  TRUE                                    ~"No"
+  advfront == "Agree" | advfront == "Strongly agree"           ~ "Yes", 
+  advfront == "Disagree" | advfront == "Strongly disagree"       ~ "No"
 ))
 ```
 
@@ -330,21 +325,30 @@ gss2016 <- mutate(gss2016, science = case_when(
 
 ``` r
 gss2016 <- mutate(gss2016, polside = case_when(
-  str_detect(polviews, "liberal")           ~"Liberal", 
-  TRUE                                    ~"Conservative"
+  polviews == "Liberal" | polviews == "Extremely liberal" | polviews == "Slightly liberal"          ~ "Liberal", 
+  polviews == "Conservative" | polviews == "Extrmly conservative" | polviews == "Slghtly conservative" ~ "Conservative" 
 ))
-
-gss2016 %>%
-  count(polside)
 ```
 
-    ## # A tibble: 2 x 2
-    ##   polside          n
-    ##   <chr>        <int>
-    ## 1 Conservative  1093
-    ## 2 Liberal        214
-
 ### Exercise 17
+
+``` r
+politics_filtered <- gss2016 %>%
+  select(polside, science) %>%
+  drop_na(polside) %>%
+  drop_na(science)
+
+politics_filtered %>%
+  count(polside, science)
+```
+
+    ## # A tibble: 4 x 3
+    ##   polside      science     n
+    ##   <chr>        <chr>   <int>
+    ## 1 Conservative No         84
+    ## 2 Conservative Yes       349
+    ## 3 Liberal      No         43
+    ## 4 Liberal      Yes       331
 
 ### Exercise 18
 
