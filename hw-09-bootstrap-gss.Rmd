@@ -238,17 +238,16 @@ politics_filtered <- gss2016 %>%
   drop_na(polside) %>%
   drop_na(science)
 
-politics_filtered %>%
-  count(polside, science)
+
 ```
 
 
 
 ### Exercise 18
 
-```{r}
 
-```
+Bootstrapping will take random and equally sized samples of the difference in proportion of liberals and not liberals who think that science research is necessary. It does this many times with replacement and will eventually provide a data set of difference in proportions. We can examine the distribution of the data set and calculate a confidence interval that estimates the true population median to a given degree of certainty/confidence.
+
 
 ### Exercise 19
 
